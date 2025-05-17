@@ -1,36 +1,22 @@
-// Write your code here
-
 import {useState} from 'react'
-
 import SuggestionItem from '../SuggestionItem'
-
 import './index.css'
 
 const GoogleSuggestions = props => {
   const {suggestionsList} = props
   const [searchInput, setSearchInput] = useState('')
-  const [initialSuggestionsList, setInitialSuggestionsList] = useState(
-    suggestionsList,
-  )
 
   const onChangeSearchInput = e => {
-    const userInput = e.target.value
-    setSearchInput(userInput)
-    if (searchInput === '') {
-      setInitialSuggestionsList(suggestionsList)
-    } else {
-      const filteredSuggestion = suggestionsList.filter(eachSuggestion =>
-        eachSuggestion.suggestion
-          .toLowerCase()
-          .includes(searchInput.toLowerCase()),
-      )
-      setInitialSuggestionsList(filteredSuggestion)
-    }
+    setSearchInput(e.target.value)
   }
 
   const updateSuggestion = suggestion => {
     setSearchInput(suggestion)
   }
+
+  const filteredSuggestions = suggestionsList.filter(eachSuggestion =>
+    eachSuggestion.suggestion.toLowerCase().includes(searchInput.toLowerCase()),
+  )
 
   return (
     <div className="app-container">
@@ -43,7 +29,7 @@ const GoogleSuggestions = props => {
         <div className="search-input-suggestion-container">
           <div className="search-input-container">
             <img
-              src="https://assets.ccbp.in/frontend/react-js/google-search-icon.png "
+              src="https://assets.ccbp.in/frontend/react-js/google-search-icon.png"
               className="search-icon"
               alt="search icon"
             />
@@ -56,10 +42,10 @@ const GoogleSuggestions = props => {
             />
           </div>
           <ul className="suggestion-list">
-            {initialSuggestionsList.map(eachSuggestion => (
+            {filteredSuggestions.map(eachSuggestion => (
               <SuggestionItem
-                suggestionDetails={eachSuggestion}
                 key={eachSuggestion.id}
+                suggestionDetails={eachSuggestion}
                 updateSuggestion={updateSuggestion}
               />
             ))}
